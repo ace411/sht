@@ -15,10 +15,6 @@ static xx_hash_t *xx_hash_init(__uint64_t seed)
 
   return result;
 }
-static void xx_hash_free(xx_hash_t *hash)
-{
-  free(hash);
-}
 static __uint64_t rotate_left(__uint64_t x, unsigned char bits)
 {
   // bitwise OR of x shifted left by n bits and x shifted right by 64 - n bits
