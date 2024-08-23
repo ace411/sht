@@ -9,10 +9,6 @@
 #include "string.h"
 #include "stdlib.h"
 #include "xxhash.c"
-#include "poll.h"
-#include "unistd.h"
-#include "fcntl.h"
-#include "sys/stat.h"
 
 struct sht_map;
 struct sht_map_entry;
