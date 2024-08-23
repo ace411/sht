@@ -3,15 +3,17 @@
 
 static xx_hash_t *xx_hash_init(__uint64_t seed)
 {
-  xx_hash_t *hash = malloc(sizeof(xx_hash_t));
-  hash->length = 0;
-  hash->size = 0;
-  hash->state[0] = seed + XX_PRIME_I + XX_PRIME_II;
-  hash->state[1] = seed + XX_PRIME_II;
-  hash->state[2] = seed;
-  hash->state[3] = seed - XX_PRIME_I;
+  xx_hash_t hash;
+  hash.length = 0;
+  hash.size = 0;
+  hash.state[0] = seed + XX_PRIME_I + XX_PRIME_II;
+  hash.state[1] = seed + XX_PRIME_II;
+  hash.state[2] = seed;
+  hash.state[3] = seed - XX_PRIME_I;
 
-  return hash;
+  xx_hash_t *result = &hash;
+
+  return result;
 }
 static void xx_hash_free(xx_hash_t *hash)
 {
@@ -35,7 +37,6 @@ static void process(void *data, __uint64_t *s1, __uint64_t *s2, __uint64_t *s3, 
              r3 = process_single(*s3, block[2]),
              r4 = process_single(*s4, block[3]);
 
-  // printf("r1: %ld\nr2: %ld\nr3: %ld\nr4: %ld\n", r1, r2, r3, r4);
   *s1 = r1;
   *s2 = r2;
   *s3 = r3;
@@ -172,7 +173,6 @@ static __uint64_t xx64_hash(void *input, __uint64_t length, __uint64_t seed)
   xx_hash_add(hash, input, length);
 
   __uint64_t result = xx_hash_final(hash);
-  xx_hash_free(hash);
 
   return result;
 }
