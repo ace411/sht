@@ -43,8 +43,6 @@ static void process(void *data, __uint64_t *s1, __uint64_t *s2, __uint64_t *s3, 
 
 /* increments size of input buffer (increases hash entropy) */
 static bool xx_hash_add(xx_hash_t *hash, void *input, __uint64_t length);
-/* releases memory allotted to xxhash64 structure */
-static void xx_hash_free(xx_hash_t *hash);
 /* converges xxhash64 structure into a unique numeric value (generates hash) */
 static __uint64_t xx_hash_final(xx_hash_t *hash);
 /* creates unique hash from arbitrary string input and seed */
