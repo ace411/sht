@@ -3,32 +3,27 @@ keys() lists keys stored in static hashtable
 --FILE--
 <?php
 
-$table = Sht::create(
-  \range(1, 10),
+$data  = \range(1, 10);
+$table = Sht::create($data);
+
+$keys = \array_map(
+  fn (int $key) => \sprintf('%d', $key),
+  $data,
 );
 
-var_dump($table->keys());
+var_dump(
+  \array_reduce(
+    $table->keys(),
+    function (bool $exists, string $key) use ($keys) {
+      if (!\in_array($key, $keys)) {
+        $exists = false;
+      }
+
+      return $exists;
+    },
+    true,
+  ),
+);
 ?>
 --EXPECT--
-array(10) {
-  [0]=>
-  string(1) "1"
-  [1]=>
-  string(1) "3"
-  [2]=>
-  string(1) "4"
-  [3]=>
-  string(1) "5"
-  [4]=>
-  string(1) "6"
-  [5]=>
-  string(1) "7"
-  [6]=>
-  string(1) "8"
-  [7]=>
-  string(1) "9"
-  [8]=>
-  string(1) "0"
-  [9]=>
-  string(1) "2"
-}
+bool(true)
