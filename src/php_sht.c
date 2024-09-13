@@ -23,6 +23,30 @@ static void php_sht_free_object(zend_object *obj)
   zend_object_std_dtor(obj);
   efree(intern);
 }
+static HashTable *php_sht_get_properties(zend_object *obj)
+{
+  php_sht_obj *intern = php_sht_from_obj(obj);
+  zval config;
+  HashTable *props;
+
+  array_init(&config);
+
+  if (intern->map == NULL || intern->map->capacity == 0)
+  {
+    goto define;
+  }
+
+  for (size_t idx = 0; idx < intern->map->capacity; idx++)
+  {
+    add_assoc_zval(&config, intern->map->entries[idx].key,
+                   (zval *)intern->map->entries[idx].value);
+  }
+
+define:
+  props = Z_ARRVAL(config);
+
+  return props;
+}
 
 static void php_sht_create(INTERNAL_FUNCTION_PARAMETERS)
 {
@@ -45,6 +69,12 @@ static void php_sht_create(INTERNAL_FUNCTION_PARAMETERS)
   sht = SHT_OBJ(return_value);
 
   sht_map *map = sht_map_init(count);
+
+  if (map == NULL)
+  {
+    SHT_THROW("Cannot allocate memory for static hashtable creation");
+    RETURN_NULL();
+  }
 
   zend_string *key = NULL;
   zend_ulong idx;
