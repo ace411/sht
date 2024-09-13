@@ -46,6 +46,12 @@ static void php_sht_create(INTERNAL_FUNCTION_PARAMETERS)
 
   sht_map *map = sht_map_init(count);
 
+  if (map == NULL)
+  {
+    SHT_THROW("Cannot allocate memory for static hashtable creation");
+    RETURN_NULL();
+  }
+
   zend_string *key = NULL;
   zend_ulong idx;
   zval *value = NULL;

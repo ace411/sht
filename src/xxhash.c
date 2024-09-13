@@ -3,17 +3,20 @@
 
 static xx_hash_t *xx_hash_init(__uint64_t seed)
 {
-  xx_hash_t hash;
-  hash.length = 0;
-  hash.size = 0;
-  hash.state[0] = seed + XX_PRIME_I + XX_PRIME_II;
-  hash.state[1] = seed + XX_PRIME_II;
-  hash.state[2] = seed;
-  hash.state[3] = seed - XX_PRIME_I;
+#ifdef PHP_H
+  xx_hash_t *hash = emalloc(sizeof(xx_hash_t));
+#else
+  xx_hash_t *hash = malloc(sizeof(xx_hash_t));
+#endif
 
-  xx_hash_t *result = &hash;
+  hash->length = 0;
+  hash->size = 0;
+  hash->state[0] = seed + XX_PRIME_I + XX_PRIME_II;
+  hash->state[1] = seed + XX_PRIME_II;
+  hash->state[2] = seed;
+  hash->state[3] = seed - XX_PRIME_I;
 
-  return result;
+  return hash;
 }
 static __uint64_t rotate_left(__uint64_t x, unsigned char bits)
 {
@@ -169,6 +172,12 @@ static __uint64_t xx64_hash(void *input, __uint64_t length, __uint64_t seed)
   xx_hash_add(hash, input, length);
 
   __uint64_t result = xx_hash_final(hash);
+
+#ifdef PHP_H
+  efree(hash);
+#else
+  free(hash);
+#endif
 
   return result;
 }

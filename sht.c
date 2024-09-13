@@ -28,6 +28,7 @@ PHP_METHOD(Sht, get)
 }
 /* }}} */
 
+/* {{{ PHP_MINIT_FUNCTION */
 PHP_MINIT_FUNCTION(sht)
 {
   zend_class_entry sht_ce, sht_exception_ce;
@@ -49,7 +50,9 @@ PHP_MINIT_FUNCTION(sht)
 
   return SUCCESS;
 }
+/* }}} */
 
+/* {{{ PHP_RINIT_FUNCTION */
 PHP_RINIT_FUNCTION(sht)
 {
 #if defined(ZTS) && defined(COMPILE_DL_SHT)
@@ -58,7 +61,9 @@ PHP_RINIT_FUNCTION(sht)
 
   return SUCCESS;
 }
+/* }}} */
 
+/* {{{ PHP_MINFO_FUNCTION */
 PHP_MINFO_FUNCTION(sht)
 {
   php_info_print_table_start();
@@ -67,7 +72,9 @@ PHP_MINFO_FUNCTION(sht)
   php_info_print_table_header(2, "sht author", SHT_AUTHOR);
   php_info_print_table_end();
 }
+/* }}} */
 
+/* {{{ sht_module_entry */
 zend_module_entry sht_module_entry = {
     STANDARD_MODULE_HEADER,
     "sht",
@@ -79,6 +86,7 @@ zend_module_entry sht_module_entry = {
     PHP_MINFO(sht),
     SHT_VERSION,
     STANDARD_MODULE_PROPERTIES};
+/* }}} */
 
 #ifdef COMPILE_DL_SHT
 #ifdef ZTS

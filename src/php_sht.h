@@ -45,7 +45,6 @@ static inline php_sht_obj *php_sht_from_obj(zend_object *obj)
 static zend_object *php_sht_create_object(zend_class_entry *ce);
 /* releases memory allotted to userspace-bound static hashtable object */
 static void php_sht_free_object(zend_object *obj);
-// static HashTable *php_sht_get_properties(zend_object *obj);
 
 /* creates static hashtable from a PHP hashtable */
 static void php_sht_create(INTERNAL_FUNCTION_PARAMETERS);
