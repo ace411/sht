@@ -40,7 +40,6 @@ PHP_MINIT_FUNCTION(sht)
   php_sht_ce->create_object = php_sht_create_object;
 
   memcpy(&sht_object_handlers, zend_get_std_object_handlers(), sizeof(sht_object_handlers));
-  sht_object_handlers.get_properties = php_sht_get_properties;
   sht_object_handlers.free_obj = php_sht_free_object;
 
 #ifdef HAVE_SPL
